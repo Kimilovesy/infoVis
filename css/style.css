@@ -1,0 +1,44 @@
+.container{
+	margin: 30px auto;
+    width: 600px;
+    height: 300px;
+    border: 1px solid #000;
+    background-color: #AA3030;
+}
+
+p{
+	color:black;
+	font-family: "Helvetica";
+	font-size:20px;
+}
+
+.green-par{
+	color:green;
+}
+
+.red-par{
+	color:red;
+}
+
+body {
+    background:#F5F5F5;
+}
+div {
+    margin: 20px;
+}
+h1 {
+    color: black;
+    font-family:"Helvetica";
+    font-size: 20px;
+}
+svg {
+    background:white;
+}
+.red {
+    fill:red;
+}
+
+.green {
+    fill:green;
+}
+
