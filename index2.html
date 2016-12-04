@@ -55,11 +55,39 @@ var svg = d3.select("body").insert("svg:svg", "h2")
 var states = svg.append("svg:g")
     .attr("id", "states");
 
+var cells = svg.append("svg:g")
+    .attr("id", "cells");
+
+var circles = svg.append("svg:g")
+    .attr("id", "circles");
+
 d3.json("data/us-states-2.json", function(collection) {
   states.selectAll("path")
     .data(collection.features)
     .enter().append("svg:path")
     .attr("d", path);
+});
+
+
+
+d3.csv("data/airports_28.csv", function(airports){
+
+	var position = [];
+
+	for(var i=0;i<airports.length;i++){
+		position.push([airports[i].longitude, airports[i].latitude]);
+	}
+
+	console.log(position)
+
+	circles.selectAll("circle")
+        .data(position)
+      .enter().append("svg:circle")
+        .attr("cx", function(d){
+        	return projection(d)[0];})
+        .attr("cy", function(d){
+        	return projection(d)[1];})
+        .attr("r",5);
 });
 
 	</script>
