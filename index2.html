@@ -1,24 +1,12 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link type="text/css" rel="stylesheet" href="style.css"/>
-    <style type="text/css">
+<head>
+	<link type="text/css" rel="stylesheet" href="style.css"/>
+	<style type="text/css">
 
 #states path {
   fill: #ccc;
   stroke: #fff;
-}
-
-path.arc {
-  pointer-events: none;
-  fill: none;
-  stroke: #000;
-  display: none;
-}
-
-path.cell {
-  fill: none;
-  pointer-events: all;
 }
 
 circle {
@@ -35,20 +23,17 @@ circle {
   display: inherit;
 }
 
-    </style>
-  </head>
-  <body>
-    <h2>
-      <span>U.S. commercial airports</span>, 2008<br>
-      great arcs and symbol map
-    </h2>
-    <div style="position:absolute;bottom:0;font-size:18px;">
-      <input type="checkbox" id="voronoi"> <label for="voronoi">show Voronoi</label>
-    </div>
+  	</style>
+</head>
+<body>
+    
     <script type="text/javascript" src="js/d3.js"></script>
     <script type="text/javascript" src="js/d3.csv.js"></script>
     <script type="text/javascript" src="js/d3.geo.js"></script>
-    <script type="text/javascript" src="js/d3.geom.js"></script>
+    <script type="text/javascript" src="js/d3.geom.js"></script>	
+	<!--
+    <script src="https://d3js.org/d3.v3.js"></script>
+	-->
     <script type="text/javascript">
 
 var w = 1280,
@@ -56,9 +41,9 @@ var w = 1280,
 
 var projection = d3.geo.azimuthal()
     .mode("equidistant")
-    .origin([-98, 38])
-    .scale(1400)
-    .translate([640, 360]);
+    .origin([-98, 35])
+    .scale(1200)
+    .translate([640, 400]);
 
 var path = d3.geo.path()
     .projection(projection);
@@ -70,26 +55,14 @@ var svg = d3.select("body").insert("svg:svg", "h2")
 var states = svg.append("svg:g")
     .attr("id", "states");
 
-var circles = svg.append("svg:g")
-    .attr("id", "circles");
-
-var cells = svg.append("svg:g")
-    .attr("id", "cells");
-
-d3.select("input[type=checkbox]").on("change", function() {
-  cells.classed("voronoi", this.checked);
-});
-
-d3.json("data/us-states.json", function(collection) {
+d3.json("data/us-states-2.json", function(collection) {
   states.selectAll("path")
-      .data(collection.features)
+    .data(collection.features)
     .enter().append("svg:path")
-      .attr("d", path);
+    .attr("d", path);
 });
 
-
-
-    </script>
-  </body>
+	</script>
+</body>
 </html>
 
