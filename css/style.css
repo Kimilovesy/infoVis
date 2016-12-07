@@ -6,7 +6,9 @@
     background-color: #AA3030;
 }
 
-
+#container{
+  height:1000px;
+}
 
 .green-par{
 	color:green;
@@ -22,11 +24,7 @@ body {
 div {
     margin: 20px;
 }
-h1 {
-    color: black;
-    font-family:"Helvetica";
-    font-size: 20px;
-}
+
 svg {
     background:white;
 }
@@ -38,3 +36,42 @@ svg {
     fill:green;
 }
 
+#states path {
+  fill: #ccc;
+  stroke: #fff;
+}
+
+circle {
+  fill: #4682b4;
+  fill-opacity: .8;
+  stroke: #fff;
+}
+
+circle:hover{
+    fill:#66a2d4;
+    r:20;
+}
+
+#cells.voronoi path.cell {
+  stroke: brown;
+}
+
+#cells g:hover path.arc {
+  display: inherit;
+}
+
+#info {
+    position:absolute;
+    top:650px;
+    left:20px;
+}
+
+#select{
+    position:absolute;
+    top:50px;
+    right:50px;
+}
+
+button{
+  margin: 20px;
+}
