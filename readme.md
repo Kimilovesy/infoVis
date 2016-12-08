@@ -1,26 +1,15 @@
 ## InfoVis  
 
-HTML - `index.html`   包括了css和Javascript
+### 1. 地图部分
 
-  
+加tip(显示机场名，delay百分比，delay总量)
 
-reason of delay:
-
-1. carrier
-2. late aircraft
-3. national avition reason
-4. weather
-5. security
-
-  
-
-total flight:
-
-1. total
-2. delay
-3. divert
-4. ontime
-5. cancel
+delay/all, weather/delay, security/delay......
 
 
 
+### 2. histogram 
+
+柱子加长，变瘦
+
+加tip（数量）

@@ -6,6 +6,7 @@
   <script type="text/javascript" src="js/d3.csv.js"></script>
   <script type="text/javascript" src="js/d3.geo.js"></script>
   <script type="text/javascript" src="js/d3.geom.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>   
 <div id="container">
@@ -14,9 +15,9 @@
     	<p id="city"></p>
     </div>
     <div id="select">
-      <button onclick="myFunction('delayed')">Delay</button><br>
-      <button onclick="myFunction('cancelled')">Cancelled</button><br>
-      <button onclick="myFunction('diverted')">Diverted</button><br>
+    <button onclick="changeRadius_Cancelled()">Cancelled</button><br>
+    <button onclick="changeRadius_Delayed()">Delayed</button><br>
+    <button onclick="changeRadius_Diverted()">Diverted</button>
     </div>
 	<!--
     <script src="https://d3js.org/d3.v3.js"></script>
@@ -51,6 +52,19 @@ var hist = d3.select("body")
     height = +svg.attr("height") - margin.top - margin.bottom,
     g = hist.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var x = d3.scaleBand()
+    .rangeRound([0, width])
+    .padding(0.1)
+    .align(0.1);
+
+var y = d3.scaleLinear()
+    .rangeRound([height, 0]);
+
+var z = d3.scaleOrdinal()
+    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c"]);
+
+var stack = d3.stack();
+
 
 var states = svg.append("svg:g")
     .attr("id", "states");
@@ -73,14 +87,12 @@ d3.json("data/us-states-2.json", function(collection) {
     .attr("d", path);
 });
 
-
+var diverted = [],
+    cancelled = [],
+    delayed = [];
 
 d3.csv("data/airports_28.csv", function(airports){
 
-	var cancelled = [],
-      delayed = [],
-      diverted = [],
-      security = [];
 
   // d3.csv("data/airlines_total.csv", function(airlines_total){
 
@@ -94,6 +106,13 @@ d3.csv("data/airports_28.csv", function(airports){
   // });
     
   // console.log(security)
+
+  for(var i = 0; i<airports.length; i++){
+      cancelled[i] = parseFloat(airports[i].cancelled);
+      delayed[i] = parseFloat(airports[i].delayed);
+      diverted[i] = parseFloat(airports[i].diverted);
+    }
+    
 
 	circles.selectAll("circle")
     .data(airports)
@@ -110,7 +129,7 @@ d3.csv("data/airports_28.csv", function(airports){
             .range([10, 20]);
             
            return linear(cancelled[i]);*/
-           return 20;
+           return 0;
          })
     .on("click", function(d,i){
     	d3.select("#airport").text(d.name);
@@ -119,12 +138,131 @@ d3.csv("data/airports_28.csv", function(airports){
         
 });
 
-function changeRadius(){
+d3.csv("data/airlines_month3.csv", type, function(data) {
+  //data.sort(function(a, b) { return b.total - a.total; });
+  //data=data.filter(function(d){return d.code =="JFK"})
+    console.log(data)
+    
+  x.domain(data.map(function(d) { return d.month; }));
+  y.domain([0, 2500]).nice();
+  // y.domain([0, d3.max(data, function(d) { return d.total; })]).nice();
+  z.domain(data.columns.slice(2));
 
-      d3.selectAll("circle")
-        .attr("r", 40);
+console.log(data.filter(function(d){return d.code =="JFK"}));
 
-    }
+  g.selectAll(".serie")
+    .data(stack.keys(data.columns.slice(2))(data.filter(function(d){return d.code =="JFK"})))
+    //.filter(function(d){return d.code =="JFK"})
+    .enter().append("g")
+      .attr("class", "serie")
+      .attr("fill", function(d) { return z(d.key); })
+    .selectAll("rect")
+    .data(function(d) { return d; })
+    .enter().append("rect")
+      .attr("x", function(d) { return x(d.data.month); })
+      .attr("y", function(d) { return y(d[1]); })
+      .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+      .attr("width", x.bandwidth());
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y).ticks(10, "s"))
+    .append("text")
+      .attr("x", 2)
+      .attr("y", y(y.ticks(10).pop()))
+      .attr("dy", "0.35em")
+      .attr("text-anchor", "start")
+      .attr("fill", "#000")
+      .text("number of delay flights");
+
+  var legend = g.selectAll(".legend")
+    .data(data.columns.slice(2).reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
+      .style("font", "10px sans-serif");
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .attr("fill", z);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .attr("text-anchor", "end")
+      .text(function(d) { return d; });
+});
+
+function type(d, i, columns) {
+  for (i = 2, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
+  d.total = t;
+  return d;
+}
+
+function changeRadius_Cancelled(){
+  
+  d3.csv("data/airports_28.csv",function(airports){
+    
+    circles.selectAll("circle")
+      .data(airports)
+      .transition()
+      .duration(500)        
+      .attr("r", function(d, i){   
+        var linear = d3.scale.linear()
+         .domain([d3.min(cancelled), d3.max(cancelled)])
+         .range([3, 20]);
+            
+        return linear(cancelled[i]);
+
+    });              
+  });
+}
+
+
+function changeRadius_Delayed(){
+
+  d3.csv("data/airports_28.csv",function(airports){
+    
+    circles.selectAll("circle")
+      .data(airports)
+      .transition()
+      .duration(500)       
+      .attr("r", function(d, i){   
+        var linear = d3.scale.linear()
+         .domain([d3.min(delayed), d3.max(delayed)])
+         .range([3, 20]);
+            
+      return linear(delayed[i]);
+
+      });            
+  });
+}
+
+
+function changeRadius_Diverted(){
+
+  d3.csv("data/airports_28.csv",function(airports){
+    
+    circles.selectAll("circle")
+     .data(airports)
+     .transition()
+     .duration(500)       
+     .attr("r", function(d, i){   
+        var linear = d3.scale.linear()
+           .domain([d3.min(diverted), d3.max(diverted)])
+           .range([3, 20]);            
+            return linear(diverted[i]);
+        });             
+  });
+}
 
 	</script>
 </div>
