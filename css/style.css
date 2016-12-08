@@ -75,3 +75,11 @@ circle:hover{
 button{
   margin: 20px;
 }
+
+.bar {
+  fill: steelblue;
+}
+
+.axis path {
+  display: none;
+}
