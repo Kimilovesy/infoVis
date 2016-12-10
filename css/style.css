@@ -1,3 +1,15 @@
+#mapTitle{
+  position:absolute;
+  top:10px;
+  left:200px;
+}
+
+#histTitle{
+  position:absolute;
+  top:710px;
+  left:200px;
+}
+
 .container{
 	margin: 30px auto;
     width: 600px;
@@ -7,7 +19,7 @@
 }
 
 #container{
-  height:1000px;
+  height:650px;
 }
 
 .green-par{
@@ -21,6 +33,7 @@
 body {
     background:#F5F5F5;
 }
+
 div {
     margin: 20px;
 }
@@ -41,14 +54,25 @@ svg {
   stroke: #fff;
 }
 
-circle {
+.num {
   fill: #4682b4;
   fill-opacity: .8;
   stroke: #fff;
 }
 
-circle:hover{
+.num:hover{
     fill:#66a2d4;
+    r:20;
+}
+
+.rate {
+  fill: #46b482;
+  fill-opacity: .8;
+  stroke: #fff;
+}
+
+.rate:hover{
+    fill:#66d4a2;
     r:20;
 }
 
@@ -63,17 +87,18 @@ circle:hover{
 #info {
     position:absolute;
     top:400px;
-    left:20px;
+    left:1000px;
 }
 
 #select{
     position:absolute;
-    top:50px;
-    right:50px;
+    top:100px;
+    left:1000px;
 }
 
 button{
   margin: 20px;
+
 }
 
 .bar {
@@ -82,4 +107,33 @@ button{
 
 .axis path {
   display: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
 }
