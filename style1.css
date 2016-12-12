@@ -1,0 +1,115 @@
+#mapTitle{
+  position:absolute;
+  top:10px;
+  left:200px;
+}
+
+#histTitle{
+  position:absolute;
+  top:710px;
+  left:200px;
+}
+
+.container{
+	margin: 30px auto;
+    width: 600px;
+    height: 300px;
+    border: 1px solid #000;
+    background-color: #AA3030;
+}
+
+#container{
+  height:650px;
+}
+
+.green-par{
+	color:green;
+}
+
+.red-par{
+	color:red;
+}
+
+body {
+    background:#F5F5F5;
+}
+
+div {
+    margin: 20px;
+}
+
+svg {
+    background:white;
+}
+.red {
+    fill:red;
+}
+
+.green {
+    fill:green;
+}
+
+#states path {
+  fill: #ccc;
+  stroke: #fff;
+}
+
+.num {
+  fill: #4682b4;
+  fill-opacity: .8;
+  stroke: #fff;
+}
+
+/*.num:hover{
+    fill:#66a2d4;
+    r:20;
+}*/
+
+.rate {
+  fill: #46b482;
+  fill-opacity: .8;
+  stroke: #fff;
+}
+
+/*.rate:hover{
+    fill:#66d4a2;
+    r:20;
+}
+*/
+
+
+#info {
+    position:absolute;
+    top:400px;
+    left:1000px;
+}
+
+#select{
+    position:absolute;
+    top:100px;
+    left:1000px;
+}
+
+button{
+  margin: 20px;
+
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.axis path {
+  display: none;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
